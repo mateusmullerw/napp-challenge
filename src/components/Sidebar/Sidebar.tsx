@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import SidebarItem, { ISidebarItem } from "../SidebarItem/SidebarItem";
 import Logo from "../Logo/Logo";
+import ROUTES from "../../constants/routes";
+import { COLORS } from "../../constants/styles";
 
 interface ISidebarProps {
   items: ISidebarItem[];
@@ -13,17 +15,18 @@ const Sidebar = (props: ISidebarProps) => {
 
   const [activeItem, setActiveItem] = useState(0);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.pathname === "/products") {
+    if (location.pathname === `/${ROUTES.PRODUCTS}`) {
       setActiveItem(0);
-    } else if (location.pathname === "/register") {
+    } else if (location.pathname === `/${ROUTES.REGISTER}`) {
       setActiveItem(1);
-    }
-  }, [location.pathname]);
+    } else navigate(ROUTES.PRODUCTS);
+  }, [location.pathname, navigate]);
 
   return (
-    <Container className="sidebar">
+    <Container>
       <Logo />
       <ItemList>
         {items.map((page, index) => {
@@ -32,6 +35,7 @@ const Sidebar = (props: ISidebarProps) => {
               key={page.to}
               to={page.to}
               label={page.label}
+              icon={page.icon}
               active={activeItem === index}
               onClick={() => setActiveItem(index)}
             />
@@ -53,6 +57,7 @@ const Container = styled.div`
   width: 18rem;
   padding: 1rem;
   gap: 1rem;
+  background-color: ${COLORS.background};
 `;
 
 const ItemList = styled.ul`

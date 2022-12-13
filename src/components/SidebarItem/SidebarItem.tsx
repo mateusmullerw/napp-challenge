@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
+import { COLORS } from "../../constants/styles";
 
 export interface ISidebarItem {
   to: string;
   label: string;
+  icon: React.ReactElement;
   active: boolean;
 }
 
@@ -13,23 +15,49 @@ interface ISidebarItemProps extends ISidebarItem {
 }
 
 const SidebarItem = (props: ISidebarItemProps) => {
-  const { to, label, active, onClick } = props;
+  const { to, label, icon, active, onClick } = props;
 
   return (
-    <StyledLink to={to} onClick={onClick}>
-      {label}
-    </StyledLink>
+    <Container active={active}>
+      <Link to={to} onClick={onClick}>
+        {icon}
+        {label}
+      </Link>
+    </Container>
   );
 };
 
 export default SidebarItem;
+interface IContainerProps {
+  active: boolean;
+}
 
-const StyledLink = styled(Link)`
+const Container = styled.div`
   display: flex;
-  text-decoration: none;
   width: 100%;
   line-height: 2rem;
-  padding: 0.5rem 1rem;
-  background-color: white;
-  color: text-secondary;
+  border-radius: 0.5rem;
+  background-color: ${(props: IContainerProps) =>
+    props.active ? COLORS.primary.default : COLORS.transparent};
+
+  :hover {
+    background-color: ${(props: IContainerProps) =>
+      props.active ? COLORS.primary.default : COLORS.hover};
+  }
+
+  a {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: ${(props: IContainerProps) =>
+      props.active ? COLORS.text.white : COLORS.text.primary};
+    width: 100%;
+    height: 100%;
+  }
+
+  transition-duration: 150ms;
 `;
