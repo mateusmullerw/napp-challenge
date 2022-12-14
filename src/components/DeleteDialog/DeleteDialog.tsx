@@ -1,7 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import styled from "@emotion/styled";
-import { COLORS } from "../../constants/styles";
 import { IProduct } from "../../contexts/ProductsContext";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";

@@ -25,10 +25,6 @@ const initialProductsData: IProduct[] = [];
 type ProductsContextType = {
   loading: boolean;
   filteredData: IProduct[];
-  page: number;
-  setPage: Function;
-  pageSize: number;
-  setPageSize: Function;
   filters: Filters;
   setFilters: Function;
   addItem: Function;
@@ -36,16 +32,11 @@ type ProductsContextType = {
   deleteItems: Function;
   getSkuList: number[];
   getBySku: Function;
-  numberOfPages: number;
 };
 
 const initialValue: ProductsContextType = {
   loading: true,
   filteredData: [],
-  page: 1,
-  setPage: () => {},
-  pageSize: 10,
-  setPageSize: () => {},
   filters: initialFilters,
   setFilters: () => {},
   addItem: () => {},
@@ -53,7 +44,6 @@ const initialValue: ProductsContextType = {
   deleteItems: () => {},
   getSkuList: [],
   getBySku: () => {},
-  numberOfPages: 1,
 };
 export const ProductsContext = createContext<ProductsContextType>(initialValue);
 
@@ -66,9 +56,6 @@ const ProductsProvider = (props: ProductsProviderProps) => {
   const [productsData, setProductsData] = useState(initialProductsData);
   const [skuList, setSkuList] = useState<number[]>([]);
   const [filteredData, setFilteredData] = useState(initialProductsData);
-  const [currentPageData, setCurrentPageData] = useState(initialProductsData);
-  const [page, setPage] = useState(initialValue.page);
-  const [pageSize, setPageSize] = useState(initialValue.pageSize);
   const [filters, setFilters] = useState<Filters>(initialFilters);
 
   const getProductsData = () => {
@@ -78,7 +65,6 @@ const ProductsProvider = (props: ProductsProviderProps) => {
     setLoading(false);
   };
 
-  // const getSkuList = () => productsData.map((item) => item.sku);
   const getSkuList = skuList;
 
   const getBySku = (sku: number) => {
@@ -116,18 +102,6 @@ const ProductsProvider = (props: ProductsProviderProps) => {
   };
 
   useEffect(() => {
-    getCurrentPageData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredData]);
-
-  const getCurrentPageData = () => {
-    const firstIndex = (page - 1) * pageSize;
-    const lastIndex = firstIndex + pageSize;
-    const newPage = filteredData.slice(firstIndex, lastIndex);
-    setCurrentPageData(newPage);
-  };
-
-  useEffect(() => {
     let newFilteredData = productsData;
 
     newFilteredData = newFilteredData.filter((item) => {
@@ -153,17 +127,7 @@ const ProductsProvider = (props: ProductsProviderProps) => {
     });
 
     setFilteredData(newFilteredData);
-    setPage(1);
   }, [productsData, filters]);
-
-  // useEffect(() => {
-  //   if (productsData.length === 0) {
-  //     getProductsData();
-  //   } else {
-  //     getCurrentPageData();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [page, pageSize, productsData.length]);
 
   useEffect(() => {
     if (productsData.length === 0) {
@@ -179,10 +143,6 @@ const ProductsProvider = (props: ProductsProviderProps) => {
   const value = {
     loading: loading,
     filteredData: filteredData,
-    page: page,
-    setPage: setPage,
-    pageSize: pageSize,
-    setPageSize: setPageSize,
     filters,
     setFilters: setFilters,
     addItem: addItem,
@@ -190,7 +150,6 @@ const ProductsProvider = (props: ProductsProviderProps) => {
     deleteItems: deleteItems,
     getSkuList: getSkuList,
     getBySku: getBySku,
-    numberOfPages: Math.ceil(filteredData.length / pageSize),
   };
 
   return (

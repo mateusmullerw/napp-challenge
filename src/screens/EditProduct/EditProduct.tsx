@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ProductsContext } from "../../contexts/ProductsContext";
-import ProductTable from "../../components/ProductTable/ProductTable";
 import styled from "@emotion/styled";
 import { COLORS } from "../../constants/styles";
-import { Button, IconButton, TextField, Typography } from "@mui/material";
-import Input from "../../components/PageTitle/PageTitle";
-import { FormikHelpers, useFormik } from "formik";
-import * as Yup from "yup";
-import { formatPrice } from "../../utils/utils";
 import ProductForm, { IValues } from "../../components/ProductForm/ProductForm";
 import { useNavigate, useParams } from "react-router-dom";
 import DeleteDialog from "../../components/DeleteDialog/DeleteDialog";
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import PageTitle from "../../components/PageTitle/PageTitle";
 
 const EditProduct = () => {

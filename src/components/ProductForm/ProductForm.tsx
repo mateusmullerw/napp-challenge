@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { ProductsContext } from "../../contexts/ProductsContext";
 import styled from "@emotion/styled";
 import { COLORS } from "../../constants/styles";
 import { Button, Typography } from "@mui/material";
-import Input from "../PageTitle/PageTitle";
 import { FormikHelpers, useFormik } from "formik";
 import * as Yup from "yup";
 import { formatPrice } from "../../utils/utils";

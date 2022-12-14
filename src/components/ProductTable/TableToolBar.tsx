@@ -121,9 +121,3 @@ const Container = styled.div`
     props.selected ? COLORS.primary.selected : COLORS.transparent};
   border-radius: 1rem;
 `;
-
-const Search = styled.div`
-  display: flex;
-  gap: 1rem;
-  padding: 0;
-`;
