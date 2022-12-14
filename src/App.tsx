@@ -1,9 +1,11 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import styled from "@emotion/styled";
 import ROUTES from "./constants/routes";
 import InventoryRoundedIcon from "@mui/icons-material/InventoryRounded";
 import PostAddRoundedIcon from "@mui/icons-material/PostAddRounded";
+import { ProductsProvider } from "./contexts/ProductsContext";
 
 const sidebarItems = [
   {
@@ -24,7 +26,9 @@ function App() {
   return (
     <Container>
       <Sidebar items={sidebarItems} />
-      <Outlet />
+      <ProductsProvider>
+        <Outlet />
+      </ProductsProvider>
     </Container>
   );
 }

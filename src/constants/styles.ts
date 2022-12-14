@@ -3,6 +3,7 @@ export const COLORS = {
         default: "#276663",
         dark: "##276663",
         light: "#0f80e2",
+        selected: 'rgba(35, 138, 133, 0.1)'
     },
     transparent: "transparent",
     white: "#ffffff",
