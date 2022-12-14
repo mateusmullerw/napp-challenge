@@ -3,15 +3,15 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import styled from "@emotion/styled";
 import ROUTES from "./constants/routes";
-import InventoryRoundedIcon from "@mui/icons-material/InventoryRounded";
 import PostAddRoundedIcon from "@mui/icons-material/PostAddRounded";
 import { ProductsProvider } from "./contexts/ProductsContext";
+import ContentPasteSearchRoundedIcon from "@mui/icons-material/ContentPasteSearchRounded";
 
 const sidebarItems = [
   {
     to: ROUTES.PRODUCTS,
     label: "Produtos",
-    icon: <InventoryRoundedIcon />,
+    icon: <ContentPasteSearchRoundedIcon />,
     active: true,
   },
   {

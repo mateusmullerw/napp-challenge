@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { COLORS } from "../../constants/styles";
 import Table from "@mui/material/Table";
@@ -8,17 +8,20 @@ import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Checkbox from "@mui/material/Checkbox";
-import { numberToBrl } from "../../utils/utils";
+import { formatPrice } from "../../utils/utils";
 import TableHead from "./TableHead";
 import TableToolbar from "./TableToolBar";
+import { useNavigate } from "react-router-dom";
+import DeleteDialog from "../DeleteDialog/DeleteDialog";
+import { IProduct } from "../../contexts/ProductsContext";
 
-export interface IData {
-  sku: number;
-  name: string;
-  stock: number;
-  priceOriginal: number;
-  priceDiscount: number;
-}
+// export interface IData {
+//   sku: number;
+//   name: string;
+//   stock: number;
+//   priceOriginal: number;
+//   priceDiscount: number;
+// }
 
 type Order = "asc" | "desc";
 
@@ -44,25 +47,47 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
+function stableSort<T>(
+  array: readonly T[],
+  comparator: (a: T, b: T) => number
+) {
+  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
 interface IProductTableProps {
-  rows: IData[];
+  rows: IProduct[];
   deleteItems: Function;
 }
 const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof IData>("name");
-  const [selected, setSelected] = React.useState<readonly number[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [order, setOrder] = useState<Order>("asc");
+  const [orderBy, setOrderBy] = useState<keyof IProduct>("name");
+  const [selected, setSelected] = useState<readonly number[]>([]);
+  const [selectedItems, setSelectedItems] = useState<IProduct[]>([]);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const navigate = useNavigate();
 
   const handleDeleteItems = () => {
     deleteItems(selected);
+    setDeleteOpen(false);
     setSelected([]);
+    setSelectedItems([]);
   };
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof IData
+    property: keyof IProduct
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -73,29 +98,46 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.sku);
       setSelected(newSelected);
+      setSelectedItems(rows);
+      console.log(selectedItems);
       return;
     }
     setSelected([]);
+    setSelectedItems([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, sku: number) => {
-    const selectedIndex = selected.indexOf(sku);
+  const handleSelect = (event: React.MouseEvent<unknown>, row: IProduct) => {
+    event.stopPropagation();
+    const selectedIndex = selected.indexOf(row.sku);
     let newSelected: readonly number[] = [];
+    let newSelectedItems: IProduct[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, sku);
+      newSelected = newSelected.concat(selected, row.sku);
+      newSelectedItems = newSelectedItems.concat(selectedItems, row);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
+      newSelectedItems = newSelectedItems.concat(selectedItems.slice(1));
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelectedItems = newSelectedItems.concat(selectedItems.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1)
       );
+      newSelectedItems = newSelectedItems.concat(
+        selectedItems.slice(0, selectedIndex),
+        selectedItems.slice(selectedIndex + 1)
+      );
     }
 
     setSelected(newSelected);
+    setSelectedItems(newSelectedItems);
+  };
+
+  const handleClick = (event: React.MouseEvent<unknown>, sku: number) => {
+    navigate(`/products/${sku}`);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -119,7 +161,7 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
     <Container>
       <TableToolbar
         numSelected={selected.length}
-        handleDeleteItems={handleDeleteItems}
+        handleDeleteItems={() => setDeleteOpen(true)}
       />
       <TableContainer>
         <Table
@@ -136,8 +178,7 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
             rowCount={rows.length}
           />
           <TableBody>
-            {rows
-              // .sort(rows, getComparator(order, orderBy))
+            {stableSort(rows, getComparator(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
                 const isItemSelected = isSelected(row.sku);
@@ -146,24 +187,21 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
                 return (
                   <TableRow
                     hover
-                    // onClick={(event) => handleClick(event, row.name)}
+                    onClick={(e) => handleClick(e, row.sku)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.name}
+                    key={row.sku}
                     selected={isItemSelected}
                     sx={{
-                      "&Mui-selected": {
-                        backgroundColor: COLORS.primary.selected,
-                      },
-                      "&:hover": { backgroundColor: COLORS.hover },
+                      "&:hover": { cursor: "pointer" },
                     }}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
-                        onClick={(event) => handleClick(event, row.sku)}
+                        onClick={(event) => handleSelect(event, row)}
                         inputProps={{
                           "aria-labelledby": labelId,
                         }}
@@ -171,12 +209,14 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
                     </TableCell>
                     <TableCell align="left">{row.name}</TableCell>
                     <TableCell align="right">{row.sku}</TableCell>
-                    <TableCell align="right">{row.stock}</TableCell>
                     <TableCell align="right">
-                      {numberToBrl(row.priceOriginal)}
+                      {row.stockTotal - row.stockCut}
                     </TableCell>
                     <TableCell align="right">
-                      {numberToBrl(row.priceDiscount)}
+                      {formatPrice(row.priceOriginal)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatPrice(row.priceDiscount)}
                     </TableCell>
                   </TableRow>
                 );
@@ -193,7 +233,6 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
           </TableBody>
         </Table>
       </TableContainer>
-
       <TablePagination
         rowsPerPageOptions={[10, 20, 30]}
         component="div"
@@ -202,6 +241,12 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <DeleteDialog
+        items={selectedItems}
+        open={deleteOpen}
+        handleClose={() => setDeleteOpen(false)}
+        handleDelete={handleDeleteItems}
       />
     </Container>
   );

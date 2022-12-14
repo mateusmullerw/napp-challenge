@@ -18,7 +18,7 @@ const Sidebar = (props: ISidebarProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.pathname === `/${ROUTES.PRODUCTS}`) {
+    if (location.pathname.includes(`/${ROUTES.PRODUCTS}`)) {
       setActiveItem(0);
     } else if (location.pathname === `/${ROUTES.REGISTER}`) {
       setActiveItem(1);

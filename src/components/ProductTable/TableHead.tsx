@@ -18,8 +18,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { Pagination } from "@mui/material";
-import { numberToBrl } from "../../utils/utils";
-import { IData } from "./ProductTable";
+// import { IData } from "./ProductTable";
+import { IProduct } from "../../contexts/ProductsContext";
 
 type Order = "asc" | "desc";
 
@@ -27,7 +27,7 @@ interface TableHeadProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof IData
+    property: keyof IProduct
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -37,7 +37,7 @@ interface TableHeadProps {
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof IData;
+  id: keyof IProduct;
   label: string;
   numeric: boolean;
 }
@@ -56,7 +56,7 @@ const headCells: readonly HeadCell[] = [
     label: "SKU",
   },
   {
-    id: "stock",
+    id: "stockTotal",
     numeric: true,
     disablePadding: false,
     label: "Estoque",
@@ -85,7 +85,7 @@ const EnhancedTableHead = (props: TableHeadProps) => {
     onRequestSort,
   } = props;
   const createSortHandler =
-    (property: keyof IData) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof IProduct) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 

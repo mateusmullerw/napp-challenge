@@ -3,36 +3,15 @@ import { ProductsContext } from "../../contexts/ProductsContext";
 import ProductTable from "../../components/ProductTable/ProductTable";
 import styled from "@emotion/styled";
 import { COLORS } from "../../constants/styles";
-import { Typography } from "@mui/material";
+import PageTitle from "../../components/PageTitle/PageTitle";
 
 const ProductList = () => {
-  const {
-    filteredData,
-    page,
-    setPage,
-    pageSize,
-    setPageSize,
-    filters,
-    setFilters,
-    loading,
-    numberOfPages,
-    deleteItems,
-  } = React.useContext(ProductsContext);
-
-  const rows = filteredData.map((item) => {
-    return {
-      sku: item.sku,
-      name: item.name,
-      stock: item.stockTotal - item.stockCut,
-      priceOriginal: item.priceOriginal,
-      priceDiscount: item.priceDiscount,
-    };
-  });
+  const { filteredData, deleteItems } = React.useContext(ProductsContext);
 
   return (
     <Container>
-      <Typography variant="h5">Produtos</Typography>
-      <ProductTable rows={rows} deleteItems={deleteItems} />
+      <PageTitle title="Produtos" />
+      <ProductTable rows={filteredData} deleteItems={deleteItems} />
     </Container>
   );
 };

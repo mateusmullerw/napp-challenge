@@ -12,7 +12,6 @@ const initialFilters: Filters = {
 };
 
 export interface IProduct {
-  id: number;
   sku: number;
   name: string;
   stockTotal: number;
@@ -32,7 +31,11 @@ type ProductsContextType = {
   setPageSize: Function;
   filters: Filters;
   setFilters: Function;
+  addItem: Function;
+  editItem: Function;
   deleteItems: Function;
+  getSkuList: number[];
+  getBySku: Function;
   numberOfPages: number;
 };
 
@@ -45,7 +48,11 @@ const initialValue: ProductsContextType = {
   setPageSize: () => {},
   filters: initialFilters,
   setFilters: () => {},
+  addItem: () => {},
+  editItem: () => {},
   deleteItems: () => {},
+  getSkuList: [],
+  getBySku: () => {},
   numberOfPages: 1,
 };
 export const ProductsContext = createContext<ProductsContextType>(initialValue);
@@ -57,6 +64,7 @@ type ProductsProviderProps = {
 const ProductsProvider = (props: ProductsProviderProps) => {
   const [loading, setLoading] = useState(initialValue.loading);
   const [productsData, setProductsData] = useState(initialProductsData);
+  const [skuList, setSkuList] = useState<number[]>([]);
   const [filteredData, setFilteredData] = useState(initialProductsData);
   const [currentPageData, setCurrentPageData] = useState(initialProductsData);
   const [page, setPage] = useState(initialValue.page);
@@ -68,6 +76,32 @@ const ProductsProvider = (props: ProductsProviderProps) => {
     const products = require("../mock/products.json");
     setProductsData(products);
     setLoading(false);
+  };
+
+  // const getSkuList = () => productsData.map((item) => item.sku);
+  const getSkuList = skuList;
+
+  const getBySku = (sku: number) => {
+    const skuIndex = productsData.findIndex((item) => item.sku === sku);
+    return productsData[skuIndex];
+  };
+
+  const addItem = (item: IProduct) => {
+    setProductsData([...productsData, item]);
+  };
+
+  const editItem = (oldSku: number, item: IProduct) => {
+    const newProductsData = [...productsData];
+    console.log({ oldSku });
+    const skuIndex = newProductsData.findIndex((item) => item.sku === oldSku);
+    console.log({ skuIndex });
+    if (skuIndex > -1) {
+      console.log("if");
+      newProductsData.splice(skuIndex, 1);
+    }
+    console.log({ newProductsData });
+
+    setProductsData([...newProductsData, item]);
   };
 
   const deleteItems = (skuList: number[]) => {
@@ -138,6 +172,10 @@ const ProductsProvider = (props: ProductsProviderProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setSkuList(productsData.map((item) => item.sku));
+  }, [productsData]);
+
   const value = {
     loading: loading,
     filteredData: filteredData,
@@ -147,7 +185,11 @@ const ProductsProvider = (props: ProductsProviderProps) => {
     setPageSize: setPageSize,
     filters,
     setFilters: setFilters,
+    addItem: addItem,
+    editItem: editItem,
     deleteItems: deleteItems,
+    getSkuList: getSkuList,
+    getBySku: getBySku,
     numberOfPages: Math.ceil(filteredData.length / pageSize),
   };
 

@@ -9,6 +9,8 @@ import { COLORS } from "../../constants/styles";
 import TextField from "@mui/material/TextField";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import { ProductsContext } from "../../contexts/ProductsContext";
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
@@ -37,7 +39,16 @@ const TableToolbar = (props: EnhancedTableToolbarProps) => {
 
   return (
     <Container selected={hasItemSelected}>
-      <Toolbar sx={{ pl: 0 }}>
+      <Toolbar
+        sx={{
+          "&.MuiToolbar-root": {
+            padding: hasItemSelected ? "0 1.5rem" : 0,
+            display: "flex",
+            flexDirection: "row",
+            gap: "1rem",
+          },
+        }}
+      >
         {hasItemSelected ? (
           <Typography
             sx={{ flex: "1 1 100%" }}
@@ -48,23 +59,39 @@ const TableToolbar = (props: EnhancedTableToolbarProps) => {
             {numSelected} selected
           </Typography>
         ) : (
-          <Search>
+          <>
             <TextField
+              sx={{ flex: "2 1 10%" }}
               id="name-search"
               label="Nome"
               variant="outlined"
               value={filters.name}
               onChange={handleFilterName}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <SearchRoundedIcon />
+                  </InputAdornment>
+                ),
+              }}
             />
             <TextField
+              sx={{ flex: "1 1 10%" }}
               id="sku-search"
               label="SKU"
               type={"number"}
               variant="outlined"
               value={filters.sku}
               onChange={handleFilterSku}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <SearchRoundedIcon />
+                  </InputAdornment>
+                ),
+              }}
             />
-          </Search>
+          </>
         )}
         {hasItemSelected ? (
           <Tooltip title="Deletar">
