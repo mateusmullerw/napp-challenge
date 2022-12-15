@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import NavigationItem, { INavigationItem } from "./NavigationItem";
 import Logo from "../Logo/Logo";
 import ROUTES from "../../constants/routes";
-import { Paper } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
 
@@ -30,22 +30,22 @@ const Navigation = (props: INavigationProps) => {
 
   return (
     <Container isMobile={isMobile}>
-      <Logo />
-      <ItemList isMobile={isMobile}>
-        {items.map((page, index) => {
-          return (
-            <NavigationItem
-              isMobile={isMobile}
-              key={page.to}
-              to={page.to}
-              label={page.label}
-              icon={page.icon}
-              active={activeItem === index}
-              onClick={() => setActiveItem(index)}
-            />
-          );
-        })}
-      </ItemList>
+      <LogoContainer isMobile={isMobile}>
+        <Logo />
+      </LogoContainer>
+      {items.map((page, index) => {
+        return (
+          <NavigationItem
+            isMobile={isMobile}
+            key={page.to}
+            to={page.to}
+            label={page.label}
+            icon={page.icon}
+            active={activeItem === index}
+            onClick={() => setActiveItem(index)}
+          />
+        );
+      })}
     </Container>
   );
 };
@@ -61,25 +61,25 @@ const Container = styled(Paper)`
     isMobile ? "fixed" : "relative"};
   bottom: 0;
   display: flex;
+  flex: 1 1 50%;
   flex-direction: ${({ isMobile }: IContainerProps) =>
     isMobile ? "row" : "column"};
   align-items: center;
   justify-content: flex-start;
   height: ${({ isMobile }: IContainerProps) => (isMobile ? "70px" : "100vh")};
   min-width: ${({ isMobile }: IContainerProps) =>
+    isMobile ? "100%" : "10rem"};
+  max-width: ${({ isMobile }: IContainerProps) =>
     isMobile ? "100%" : "16rem"};
   padding: ${({ isMobile }: IContainerProps) => (isMobile ? "0.5rem" : "1rem")};
   border-radius: 0;
-  gap: 1rem;
+  gap: 0.5rem;
   z-index: 1000;
 `;
 
-const ItemList = styled.ul`
-  display: flex;
-  flex-direction: ${({ isMobile }: IContainerProps) =>
-    isMobile ? "row" : "column"};
-  gap: 0.5rem;
-  width: 100%;
-  margin: 0;
-  padding: 0;
+const LogoContainer = styled(Box)`
+  max-width: ${({ isMobile }: IContainerProps) =>
+    isMobile ? "100px" : "150px"};
+  padding: ${({ isMobile }: IContainerProps) =>
+    isMobile ? "0 0.5rem" : "0 1rem 1rem 1rem"};
 `;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteDialog from "../DeleteDialog/DeleteDialog";
 import { IProduct } from "../../contexts/ProductsContext";
 import { Paper } from "@mui/material";
+import { SnackbarContext } from "../../contexts/SnackbarContext";
 
 type Order = "asc" | "desc";
 
@@ -64,6 +65,7 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
   const [selected, setSelected] = useState<readonly number[]>([]);
   const [selectedItems, setSelectedItems] = useState<IProduct[]>([]);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const { setSnack } = useContext(SnackbarContext);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -71,10 +73,17 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
   const navigate = useNavigate();
 
   const handleDeleteItems = () => {
+    const plural = selected.length > 1;
     deleteItems(selected);
     setDeleteOpen(false);
     setSelected([]);
     setSelectedItems([]);
+    setSnack({
+      message: plural
+        ? `${selected.length} produtos foram deletados.`
+        : `${selected.length} produto foi deletado.`,
+      open: true,
+    });
   };
 
   const handleRequestSort = (
@@ -91,7 +100,6 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
       const newSelected = rows.map((n) => n.sku);
       setSelected(newSelected);
       setSelectedItems(rows);
-      console.log(selectedItems);
       return;
     }
     setSelected([]);

@@ -16,9 +16,8 @@ const StyledLink = styled(Link)`
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  padding: 0 1rem;
 `;
 
 const LogoImage = styled.img`
-  max-width: 100px;
+  max-width: 100%;
 `;

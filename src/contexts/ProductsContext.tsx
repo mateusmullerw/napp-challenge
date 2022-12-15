@@ -78,14 +78,10 @@ const ProductsProvider = (props: ProductsProviderProps) => {
 
   const editItem = (oldSku: number, item: IProduct) => {
     const newProductsData = [...productsData];
-    console.log({ oldSku });
     const skuIndex = newProductsData.findIndex((item) => item.sku === oldSku);
-    console.log({ skuIndex });
     if (skuIndex > -1) {
-      console.log("if");
       newProductsData.splice(skuIndex, 1);
     }
-    console.log({ newProductsData });
 
     setProductsData([...newProductsData, item]);
   };

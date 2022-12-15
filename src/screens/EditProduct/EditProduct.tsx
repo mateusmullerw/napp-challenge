@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { ProductsContext } from "../../contexts/ProductsContext";
+import { SnackbarContext } from "../../contexts/SnackbarContext";
 import styled from "@emotion/styled";
 import ProductForm, { IValues } from "../../components/ProductForm/ProductForm";
 import { useNavigate, useParams } from "react-router-dom";
@@ -8,7 +9,9 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 
 const EditProduct = () => {
   const { getBySku, getSkuList, deleteItems, editItem } =
-    React.useContext(ProductsContext);
+    useContext(ProductsContext);
+  const { setSnack } = useContext(SnackbarContext);
+
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const { sku } = useParams();
@@ -24,6 +27,7 @@ const EditProduct = () => {
   }
 
   const onSubmit = (item: IValues) => {
+    setSnack({ message: `${item.name} editado com sucesso.`, open: true });
     editItem(numberSku, item);
     selectedItem = item;
     if (numberSku !== item.sku) {
@@ -33,6 +37,7 @@ const EditProduct = () => {
 
   const handleDelete = () => {
     deleteItems([numberSku]);
+    setSnack({ message: `${selectedItem.name} foi deletado.`, open: true });
     navigate(`/products`);
   };
 

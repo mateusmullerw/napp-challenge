@@ -1,5 +1,6 @@
-import React from "react";
-import { ProductsContext } from "../../contexts/ProductsContext";
+import React, { useContext } from "react";
+import { IProduct, ProductsContext } from "../../contexts/ProductsContext";
+import { SnackbarContext } from "../../contexts/SnackbarContext";
 import styled from "@emotion/styled";
 import ProductForm, { IValues } from "../../components/ProductForm/ProductForm";
 import PageTitle from "../../components/PageTitle/PageTitle";
@@ -15,6 +16,12 @@ const initialValues: IValues = {
 
 const RegisterProduct = () => {
   const { getSkuList, addItem } = React.useContext(ProductsContext);
+  const { setSnack } = useContext(SnackbarContext);
+
+  const handleAdd = (item: IProduct) => {
+    addItem(item);
+    setSnack({ message: `${item.name} cadastrado com sucesso.`, open: true });
+  };
 
   return (
     <Container>
@@ -22,7 +29,7 @@ const RegisterProduct = () => {
       <ProductForm
         initialValues={initialValues}
         skuList={getSkuList}
-        onSubmit={addItem}
+        onSubmit={handleAdd}
         submitLabel="Cadastrar"
       />
     </Container>

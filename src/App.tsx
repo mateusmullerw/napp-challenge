@@ -5,11 +5,21 @@ import styled from "@emotion/styled";
 import ROUTES from "./constants/routes";
 import PostAddRoundedIcon from "@mui/icons-material/PostAddRounded";
 import { ProductsProvider } from "./contexts/ProductsContext";
+import { SnackbarProvider } from "./contexts/SnackbarContext";
 import ContentPasteSearchRoundedIcon from "@mui/icons-material/ContentPasteSearchRounded";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Box } from "@mui/material";
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 995,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
   shape: {
     borderRadius: 10,
   },
@@ -92,7 +102,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <Sidebar items={sidebarItems} />
         <ProductsProvider>
-          <Outlet />
+          <SnackbarProvider>
+            <Outlet />
+          </SnackbarProvider>
         </ProductsProvider>
       </ThemeProvider>
     </Container>
