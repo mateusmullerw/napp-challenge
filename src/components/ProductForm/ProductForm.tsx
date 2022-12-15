@@ -123,7 +123,7 @@ const ProductForm = (props: IProductFormProps) => {
           <TextField
             id="name"
             name="name"
-            label="Name"
+            label="Nome"
             variant="outlined"
             helperText={touched.name && errors.name ? errors.name : ""}
             error={touched.name && !!errors.name}
