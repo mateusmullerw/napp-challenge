@@ -118,6 +118,7 @@ const ProductForm = (props: IProductFormProps) => {
             value={values.sku}
             onChange={handleChange}
             onBlur={handleBlur}
+            inputProps={{ inputmode: "numeric" }}
           />
           <TextField
             id="name"
@@ -146,6 +147,7 @@ const ProductForm = (props: IProductFormProps) => {
             value={values.stockTotal}
             onChange={handleChange}
             onBlur={handleBlur}
+            inputProps={{ inputmode: "numeric" }}
           />
           <TextField
             id="stock-cut"
@@ -160,6 +162,7 @@ const ProductForm = (props: IProductFormProps) => {
             value={values.stockCut}
             onChange={handleChange}
             onBlur={handleBlur}
+            inputProps={{ inputmode: "numeric" }}
           />
           <TextField
             id="stock-available"
@@ -175,6 +178,7 @@ const ProductForm = (props: IProductFormProps) => {
             }
             onChange={handleChange}
             onBlur={handleBlur}
+            inputProps={{ inputmode: "numeric" }}
           />
         </FormSection>
         <FormSection>
@@ -200,6 +204,7 @@ const ProductForm = (props: IProductFormProps) => {
               maskPrice(parseInt(e.target.value.replace(/\D/g, "")));
             }}
             onBlur={handleBlur}
+            inputProps={{ inputmode: "numeric" }}
           />
           <TextField
             id="price-discount"
@@ -222,6 +227,7 @@ const ProductForm = (props: IProductFormProps) => {
               maskPrice(parseInt(e.target.value.replace(/\D/g, "")));
             }}
             onBlur={handleBlur}
+            inputProps={{ inputmode: "numeric" }}
           />
         </FormSection>
         <Button
