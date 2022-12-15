@@ -9,6 +9,7 @@ import { SnackbarProvider } from "./contexts/SnackbarContext";
 import ContentPasteSearchRoundedIcon from "@mui/icons-material/ContentPasteSearchRounded";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Box } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const theme = createTheme({
   breakpoints: {
@@ -97,8 +98,13 @@ const sidebarItems = [
 ];
 
 function App() {
+  const isMobile = !useMediaQuery(theme.breakpoints.up("md"));
+
   return (
-    <Container sx={{ backgroundColor: theme.palette.background.default }}>
+    <Container
+      isMobile={isMobile}
+      sx={{ backgroundColor: theme.palette.background.default }}
+    >
       <ThemeProvider theme={theme}>
         <Sidebar items={sidebarItems} />
         <ProductsProvider>
@@ -113,8 +119,13 @@ function App() {
 
 export default App;
 
+interface IContainerProps {
+  isMobile: boolean;
+}
 const Container = styled(Box)`
   display: flex;
   flex-direction: row;
   min-height: 100vh;
+  margin-bottom: ${(props: IContainerProps) =>
+    props.isMobile ? "70px" : "0px"};
 `;

@@ -66,7 +66,8 @@ const Container = styled(Paper)`
     isMobile ? "row" : "column"};
   align-items: center;
   justify-content: flex-start;
-  height: ${({ isMobile }: IContainerProps) => (isMobile ? "70px" : "100vh")};
+  min-height: ${({ isMobile }: IContainerProps) =>
+    isMobile ? "70px" : "100%"};
   min-width: ${({ isMobile }: IContainerProps) =>
     isMobile ? "100%" : "10rem"};
   max-width: ${({ isMobile }: IContainerProps) =>

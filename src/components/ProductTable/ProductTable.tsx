@@ -234,6 +234,7 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
         </Table>
       </TableContainer>
       <TablePagination
+        labelRowsPerPage={"Mostrar"}
         rowsPerPageOptions={[10, 20, 30]}
         component="div"
         count={rows.length}
