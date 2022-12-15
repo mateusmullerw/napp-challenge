@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import { SnackbarContext } from "../../contexts/SnackbarContext";
 import styled from "@emotion/styled";
