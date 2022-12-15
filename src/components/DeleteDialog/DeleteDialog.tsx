@@ -36,14 +36,17 @@ const DeleteDialog = (props: IDeleteDialog) => {
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
+        <DialogContentText
+          id="alert-dialog-description"
+          sx={{ marginBottom: "0.5rem" }}
+        >
           {content}
         </DialogContentText>
         {items.map((item) => (
-          <Typography>{`${item.sku} - ${item.name}`}</Typography>
+          <Typography variant="body1">{`${item.sku} - ${item.name}`}</Typography>
         ))}
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ padding: "0 1.5rem 1.5rem 1.5rem" }}>
         <Button onClick={handleClose}>Cancelar</Button>
         <Button onClick={handleDelete} color="error" variant="contained">
           Deletar

@@ -80,6 +80,11 @@ const theme = createTheme({
     },
     divider: "rgba(43,34,61,0.15)",
   },
+  typography: {
+    button: {
+      textTransform: "none",
+    },
+  },
 });
 
 const sidebarItems = [

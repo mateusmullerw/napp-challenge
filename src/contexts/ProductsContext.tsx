@@ -30,7 +30,7 @@ type ProductsContextType = {
   addItem: Function;
   editItem: Function;
   deleteItems: Function;
-  getSkuList: number[];
+  skuList: number[];
   getBySku: Function;
 };
 
@@ -42,7 +42,7 @@ const initialValue: ProductsContextType = {
   addItem: () => {},
   editItem: () => {},
   deleteItems: () => {},
-  getSkuList: [],
+  skuList: [],
   getBySku: () => {},
 };
 export const ProductsContext = createContext<ProductsContextType>(initialValue);
@@ -65,9 +65,10 @@ const ProductsProvider = (props: ProductsProviderProps) => {
     setLoading(false);
   };
 
-  const getSkuList = skuList;
-
   const getBySku = (sku: number) => {
+    if (productsData.length === 0) {
+      return undefined;
+    }
     const skuIndex = productsData.findIndex((item) => item.sku === sku);
     return productsData[skuIndex];
   };
@@ -144,7 +145,7 @@ const ProductsProvider = (props: ProductsProviderProps) => {
     addItem: addItem,
     editItem: editItem,
     deleteItems: deleteItems,
-    getSkuList: getSkuList,
+    skuList: skuList,
     getBySku: getBySku,
   };
 

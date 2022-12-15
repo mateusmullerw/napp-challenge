@@ -15,7 +15,7 @@ const initialValues: IValues = {
 };
 
 const RegisterProduct = () => {
-  const { getSkuList, addItem } = React.useContext(ProductsContext);
+  const { skuList, addItem } = React.useContext(ProductsContext);
   const { setSnack } = useContext(SnackbarContext);
 
   const handleAdd = (item: IProduct) => {
@@ -28,7 +28,7 @@ const RegisterProduct = () => {
       <PageTitle title="Cadastrar Produto" />
       <ProductForm
         initialValues={initialValues}
-        skuList={getSkuList}
+        skuList={skuList}
         onSubmit={handleAdd}
         submitLabel="Cadastrar"
       />
