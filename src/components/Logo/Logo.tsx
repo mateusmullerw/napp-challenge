@@ -16,7 +16,7 @@ const StyledLink = styled(Link)`
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  width: 100%;
+  padding: 0 1rem;
 `;
 
 const LogoImage = styled.img`

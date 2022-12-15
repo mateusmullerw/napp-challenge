@@ -31,7 +31,6 @@ const DeleteDialog = (props: IDeleteDialog) => {
   return (
     <Dialog
       open={open}
-      // onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >

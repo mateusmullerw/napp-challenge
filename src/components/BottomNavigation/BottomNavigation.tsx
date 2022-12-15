@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import SidebarItem, { ISidebarItem } from "./SidebarItem";
+import SidebarItem, { ISidebarItem } from "./BottomNavigationItem";
 import Logo from "../Logo/Logo";
 import ROUTES from "../../constants/routes";
 import { COLORS } from "../../constants/styles";
@@ -26,8 +26,9 @@ const Sidebar = (props: ISidebarProps) => {
 
   return (
     <Container>
-      <Logo />
+      {/* <Logo /> */}
       <ItemList>
+        <Logo />
         {items.map((page, index) => {
           return (
             <SidebarItem
@@ -48,20 +49,22 @@ const Sidebar = (props: ISidebarProps) => {
 export default Sidebar;
 
 const Container = styled.div`
+  position: absolute;
+  bottom: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  height: 100vh;
-  min-width: 16rem;
-  padding: 1rem;
+  height: 70px;
+  min-width: 100%;
+  padding: 0.5rem;
   gap: 1rem;
   background-color: ${COLORS.background};
 `;
 
 const ItemList = styled.ul`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.5rem;
   width: 100%;
   margin: 0;

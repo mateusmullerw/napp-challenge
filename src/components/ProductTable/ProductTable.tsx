@@ -15,14 +15,6 @@ import { useNavigate } from "react-router-dom";
 import DeleteDialog from "../DeleteDialog/DeleteDialog";
 import { IProduct } from "../../contexts/ProductsContext";
 
-// export interface IData {
-//   sku: number;
-//   name: string;
-//   stock: number;
-//   priceOriginal: number;
-//   priceDiscount: number;
-// }
-
 type Order = "asc" | "desc";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -163,7 +155,7 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
         numSelected={selected.length}
         handleDeleteItems={() => setDeleteOpen(true)}
       />
-      <TableContainer>
+      <TableContainer sx={{ overflowX: "auto" }}>
         <Table
           sx={{ minWidth: 750 }}
           aria-labelledby="tableTitle"

@@ -42,7 +42,7 @@ const TableToolbar = (props: EnhancedTableToolbarProps) => {
       <Toolbar
         sx={{
           "&.MuiToolbar-root": {
-            padding: hasItemSelected ? "0 1.5rem" : 0,
+            padding: hasItemSelected ? "0 1.5rem" : " 0 0.5rem 0 0",
             display: "flex",
             flexDirection: "row",
             gap: "1rem",
@@ -68,7 +68,7 @@ const TableToolbar = (props: EnhancedTableToolbarProps) => {
               value={filters.name}
               onChange={handleFilterName}
               InputProps={{
-                endAdornment: (
+                startAdornment: (
                   <InputAdornment position="start">
                     <SearchRoundedIcon />
                   </InputAdornment>
@@ -83,13 +83,6 @@ const TableToolbar = (props: EnhancedTableToolbarProps) => {
               variant="outlined"
               value={filters.sku}
               onChange={handleFilterSku}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <SearchRoundedIcon />
-                  </InputAdornment>
-                ),
-              }}
             />
           </>
         )}
