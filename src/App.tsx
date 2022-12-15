@@ -53,10 +53,10 @@ const theme = createTheme({
   ],
   palette: {
     primary: {
-      main: "#276663",
+      main: "#0A9FBF",
     },
     secondary: {
-      main: "#9a76dc",
+      main: "#3E2B78",
     },
     text: {
       primary: "#2b223d",
@@ -64,21 +64,19 @@ const theme = createTheme({
       disabled: "rgba(128,121,139,0.6)",
     },
     success: {
-      main: "#159570",
+      main: "#009D9F",
     },
     error: {
       main: "#ba1a1a",
     },
     background: {
-      default: "#FCFBFF",
-      paper: "#F1F3F7",
+      default: "#F7F9FA",
+      paper: "#FFFFFF",
     },
     action: {
-      active: "rgba(40,93,91,0.75)",
-      hover: "#dae5e3",
-      selected: "#d3e4ff",
+      hover: "#F7F9FA",
+      selected: "#EDE8FD",
     },
-    divider: "rgba(43,34,61,0.15)",
   },
   typography: {
     button: {

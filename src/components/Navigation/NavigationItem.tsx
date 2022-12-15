@@ -60,7 +60,10 @@ const Container = styled.div`
     font-weight: 500;
     padding: 0.5rem 1rem;
     text-decoration: none;
-    color: ${(props: IContainerProps) => props.theme.palette.text.primary};
+    color: ${(props: IContainerProps) =>
+      props.active
+        ? props.theme.palette.secondary.main
+        : props.theme.palette.text.secondary};
     width: 100%;
     height: 100%;
   }
