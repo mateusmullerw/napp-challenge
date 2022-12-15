@@ -49,8 +49,9 @@ const Sidebar = (props: ISidebarProps) => {
 export default Sidebar;
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
+  z-index: 1000;
   display: flex;
   flex-direction: row;
   align-items: center;
