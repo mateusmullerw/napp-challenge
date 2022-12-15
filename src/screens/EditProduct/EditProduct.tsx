@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import styled from "@emotion/styled";
-import { COLORS } from "../../constants/styles";
 import ProductForm, { IValues } from "../../components/ProductForm/ProductForm";
 import { useNavigate, useParams } from "react-router-dom";
 import DeleteDialog from "../../components/DeleteDialog/DeleteDialog";
@@ -71,5 +70,4 @@ const Container = styled.div`
   width: 100%;
   padding: 1.5rem;
   gap: 1.5rem;
-  background-color: ${COLORS.white};
 `;

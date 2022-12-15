@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { COLORS } from "../../constants/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -14,6 +13,7 @@ import TableToolbar from "./TableToolBar";
 import { useNavigate } from "react-router-dom";
 import DeleteDialog from "../DeleteDialog/DeleteDialog";
 import { IProduct } from "../../contexts/ProductsContext";
+import { Paper } from "@mui/material";
 
 type Order = "asc" | "desc";
 
@@ -150,7 +150,7 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Container>
+    <Container elevation={0}>
       <TableToolbar
         numSelected={selected.length}
         handleDeleteItems={() => setDeleteOpen(true)}
@@ -246,8 +246,7 @@ const ProductTable = ({ rows, deleteItems }: IProductTableProps) => {
 
 export default ProductTable;
 
-const Container = styled.div`
+const Container = styled(Paper)`
   padding: 1rem;
-  background-color: ${COLORS.background};
   border-radius: 1rem;
 `;

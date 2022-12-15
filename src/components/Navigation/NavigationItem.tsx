@@ -1,24 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
-import { COLORS } from "../../constants/styles";
+import { Theme, useTheme } from "@mui/material";
 
-export interface ISidebarItem {
+export interface INavigationItem {
   to: string;
   label: string;
   icon: React.ReactElement;
   active: boolean;
 }
 
-interface ISidebarItemProps extends ISidebarItem {
+interface INavigationItemProps extends INavigationItem {
   onClick: (ev: React.MouseEvent<HTMLAnchorElement>) => void;
+  isMobile: boolean;
 }
 
-const SidebarItem = (props: ISidebarItemProps) => {
-  const { to, label, icon, active, onClick } = props;
+const NavigationItem = (props: INavigationItemProps) => {
+  const { to, label, icon, active, onClick, isMobile } = props;
+  const theme = useTheme();
 
   return (
-    <Container active={active}>
+    <Container active={active} theme={theme} isMobile={isMobile}>
       <Link to={to} onClick={onClick}>
         {icon}
         {label}
@@ -27,9 +29,11 @@ const SidebarItem = (props: ISidebarItemProps) => {
   );
 };
 
-export default SidebarItem;
+export default NavigationItem;
 interface IContainerProps {
   active: boolean;
+  theme: Theme;
+  isMobile: boolean;
 }
 
 const Container = styled.div`
@@ -38,23 +42,25 @@ const Container = styled.div`
   line-height: 2rem;
   border-radius: 0.5rem;
   background-color: ${(props: IContainerProps) =>
-    props.active ? COLORS.primary.default : COLORS.transparent};
+    props.active ? props.theme.palette.action.selected : "transparent"};
 
   :hover {
     background-color: ${(props: IContainerProps) =>
-      props.active ? COLORS.primary.default : COLORS.hover};
+      props.active
+        ? props.theme.palette.action.selected
+        : props.theme.palette.action.hover};
   }
 
   a {
     display: flex;
-    justify-content: flex-start;
+    justify-content: ${({ isMobile }: IContainerProps) =>
+      isMobile ? "center" : "flex-start"};
     align-items: center;
     gap: 0.5rem;
     font-weight: 500;
     padding: 0.5rem 1rem;
     text-decoration: none;
-    color: ${(props: IContainerProps) =>
-      props.active ? COLORS.text.white : COLORS.text.primary};
+    color: ${(props: IContainerProps) => props.theme.palette.text.primary};
     width: 100%;
     height: 100%;
   }

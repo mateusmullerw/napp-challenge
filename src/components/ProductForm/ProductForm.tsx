@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { COLORS } from "../../constants/styles";
-import { Button, Typography } from "@mui/material";
+import { Button, Paper, Typography } from "@mui/material";
 import { FormikHelpers, useFormik } from "formik";
 import * as Yup from "yup";
 import { formatPrice } from "../../utils/utils";
@@ -99,145 +98,157 @@ const ProductForm = (props: IProductFormProps) => {
   }
 
   return (
-    <Form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
-    >
-      <FormSection>
-        <Typography variant="body1">Produto</Typography>
-        <TextField
-          id="sku"
-          name="sku"
-          label="SKU"
-          type="number"
-          variant="outlined"
-          helperText={touched.sku && errors.sku ? errors.sku : ""}
-          error={touched.sku && !!errors.sku}
-          value={values.sku}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <TextField
-          id="name"
-          name="name"
-          label="Name"
-          variant="outlined"
-          helperText={touched.name && errors.name ? errors.name : ""}
-          error={touched.name && !!errors.name}
-          value={values.name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </FormSection>
-      <FormSection>
-        <Typography variant="body1">Estoque</Typography>
-        <TextField
-          id="stock-total"
-          name="stockTotal"
-          label="Estoque Total"
-          type="number"
-          variant="outlined"
-          helperText={
-            touched.stockTotal && errors.stockTotal ? errors.stockTotal : ""
-          }
-          error={touched.stockTotal && !!errors.stockTotal}
-          value={values.stockTotal}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <TextField
-          id="stock-cut"
-          name="stockCut"
-          label="Estoque de corte"
-          type="number"
-          variant="outlined"
-          helperText={
-            touched.stockCut && errors.stockCut ? errors.stockCut : ""
-          }
-          error={touched.stockCut && !!errors.stockCut}
-          value={values.stockCut}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        <TextField
-          id="stock-available"
-          name="stockAvailable"
-          label="Estoque disponível"
-          type="number"
-          disabled
-          variant="outlined"
-          value={
-            values.stockTotal && values.stockCut
-              ? values.stockTotal - values.stockCut
-              : ""
-          }
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </FormSection>
-      <FormSection>
-        <Typography variant="body1">Preço</Typography>
-        <TextField
-          id="price-original"
-          name="priceOriginal"
-          label="Preço de"
-          variant="outlined"
-          helperText={
-            touched.priceOriginal && errors.priceOriginal
-              ? errors.priceOriginal
-              : ""
-          }
-          error={touched.priceOriginal && !!errors.priceOriginal}
-          value={
-            values.priceOriginal === "" ? "" : formatPrice(values.priceOriginal)
-          }
-          onChange={(e) => {
-            setCurrentPriceField("priceOriginal");
-            maskPrice(parseInt(e.target.value.replace(/\D/g, "")));
-          }}
-          onBlur={handleBlur}
-        />
-        <TextField
-          id="price-discount"
-          name="priceDiscount"
-          label="Preço por"
-          variant="outlined"
-          helperText={
-            touched.priceDiscount && errors.priceDiscount
-              ? errors.priceDiscount
-              : ""
-          }
-          error={touched.priceDiscount && !!errors.priceDiscount}
-          value={
-            values.priceDiscount === "" ? "" : formatPrice(values.priceDiscount)
-          }
-          onChange={(e) => {
-            setCurrentPriceField("priceDiscount");
-            maskPrice(parseInt(e.target.value.replace(/\D/g, "")));
-          }}
-          onBlur={handleBlur}
-        />
-      </FormSection>
-      <Button
-        disabled={isSubmitting}
-        type="submit"
-        variant="contained"
-        size="large"
+    <Container>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
       >
-        {submitLabel}
-      </Button>
-      {negativeLabel && handleNegative && (
-        <Button onClick={handleNegative} size="large" color="error">
-          {negativeLabel}
+        <FormSection>
+          <Typography variant="body1">Produto</Typography>
+          <TextField
+            id="sku"
+            name="sku"
+            label="SKU"
+            type="number"
+            variant="outlined"
+            helperText={touched.sku && errors.sku ? errors.sku : ""}
+            error={touched.sku && !!errors.sku}
+            value={values.sku}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <TextField
+            id="name"
+            name="name"
+            label="Name"
+            variant="outlined"
+            helperText={touched.name && errors.name ? errors.name : ""}
+            error={touched.name && !!errors.name}
+            value={values.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </FormSection>
+        <FormSection>
+          <Typography variant="body1">Estoque</Typography>
+          <TextField
+            id="stock-total"
+            name="stockTotal"
+            label="Estoque Total"
+            type="number"
+            variant="outlined"
+            helperText={
+              touched.stockTotal && errors.stockTotal ? errors.stockTotal : ""
+            }
+            error={touched.stockTotal && !!errors.stockTotal}
+            value={values.stockTotal}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <TextField
+            id="stock-cut"
+            name="stockCut"
+            label="Estoque de corte"
+            type="number"
+            variant="outlined"
+            helperText={
+              touched.stockCut && errors.stockCut ? errors.stockCut : ""
+            }
+            error={touched.stockCut && !!errors.stockCut}
+            value={values.stockCut}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <TextField
+            id="stock-available"
+            name="stockAvailable"
+            label="Estoque disponível"
+            type="number"
+            disabled
+            variant="outlined"
+            value={
+              values.stockTotal && values.stockCut
+                ? values.stockTotal - values.stockCut
+                : ""
+            }
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </FormSection>
+        <FormSection>
+          <Typography variant="body1">Preço</Typography>
+          <TextField
+            id="price-original"
+            name="priceOriginal"
+            label="Preço de"
+            variant="outlined"
+            helperText={
+              touched.priceOriginal && errors.priceOriginal
+                ? errors.priceOriginal
+                : ""
+            }
+            error={touched.priceOriginal && !!errors.priceOriginal}
+            value={
+              values.priceOriginal === ""
+                ? ""
+                : formatPrice(values.priceOriginal)
+            }
+            onChange={(e) => {
+              setCurrentPriceField("priceOriginal");
+              maskPrice(parseInt(e.target.value.replace(/\D/g, "")));
+            }}
+            onBlur={handleBlur}
+          />
+          <TextField
+            id="price-discount"
+            name="priceDiscount"
+            label="Preço por"
+            variant="outlined"
+            helperText={
+              touched.priceDiscount && errors.priceDiscount
+                ? errors.priceDiscount
+                : ""
+            }
+            error={touched.priceDiscount && !!errors.priceDiscount}
+            value={
+              values.priceDiscount === ""
+                ? ""
+                : formatPrice(values.priceDiscount)
+            }
+            onChange={(e) => {
+              setCurrentPriceField("priceDiscount");
+              maskPrice(parseInt(e.target.value.replace(/\D/g, "")));
+            }}
+            onBlur={handleBlur}
+          />
+        </FormSection>
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          variant="contained"
+          size="large"
+        >
+          {submitLabel}
         </Button>
-      )}
-    </Form>
+        {negativeLabel && handleNegative && (
+          <Button onClick={handleNegative} size="large" color="error">
+            {negativeLabel}
+          </Button>
+        )}
+      </Form>
+    </Container>
   );
 };
 
 export default ProductForm;
+
+const Container = styled(Paper)`
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem;
+`;
 
 const Form = styled.form`
   display: flex;
@@ -245,10 +256,7 @@ const Form = styled.form`
   justify-content: flex-start;
   width: 100%;
   max-width: 500px;
-  padding: 1.5rem;
   gap: 1rem;
-  border-radius: 1rem;
-  background-color: ${COLORS.background};
 `;
 
 const FormSection = styled.div`

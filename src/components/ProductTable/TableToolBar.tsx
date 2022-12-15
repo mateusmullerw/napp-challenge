@@ -5,12 +5,12 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import styled from "@emotion/styled";
-import { COLORS } from "../../constants/styles";
 import TextField from "@mui/material/TextField";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import { ProductsContext } from "../../contexts/ProductsContext";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import { Theme, useTheme } from "@mui/material";
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
@@ -20,6 +20,7 @@ interface EnhancedTableToolbarProps {
 const TableToolbar = (props: EnhancedTableToolbarProps) => {
   const { numSelected, handleDeleteItems } = props;
   const { filters, setFilters } = React.useContext(ProductsContext);
+  const theme = useTheme();
 
   const handleFilterName = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -38,7 +39,7 @@ const TableToolbar = (props: EnhancedTableToolbarProps) => {
   const hasItemSelected = numSelected > 0;
 
   return (
-    <Container selected={hasItemSelected}>
+    <Container selected={hasItemSelected} theme={theme}>
       <Toolbar
         sx={{
           "&.MuiToolbar-root": {
@@ -108,9 +109,10 @@ export default TableToolbar;
 
 interface IContainerProps {
   selected: boolean;
+  theme: Theme;
 }
 const Container = styled.div`
   background-color: ${(props: IContainerProps) =>
-    props.selected ? COLORS.primary.selected : COLORS.transparent};
-  border-radius: 1rem;
+    props.selected ? props.theme.palette.action.selected : "transparent"};
+  border-radius: 0.8rem;
 `;

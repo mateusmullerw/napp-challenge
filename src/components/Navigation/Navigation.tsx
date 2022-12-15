@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import SidebarItem, { ISidebarItem } from "./BottomNavigationItem";
+import NavigationItem, { INavigationItem } from "./NavigationItem";
 import Logo from "../Logo/Logo";
 import ROUTES from "../../constants/routes";
-import { COLORS } from "../../constants/styles";
+import { Paper } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material";
 
-interface ISidebarProps {
-  items: ISidebarItem[];
+interface INavigationProps {
+  items: INavigationItem[];
 }
 
-const Sidebar = (props: ISidebarProps) => {
+const Navigation = (props: INavigationProps) => {
   const { items } = props;
+  const theme = useTheme();
+  const isMobile = !useMediaQuery(theme.breakpoints.up("md"));
   const [activeItem, setActiveItem] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
@@ -25,13 +29,13 @@ const Sidebar = (props: ISidebarProps) => {
   }, [location.pathname, navigate]);
 
   return (
-    <Container>
-      {/* <Logo /> */}
-      <ItemList>
-        <Logo />
+    <Container isMobile={isMobile}>
+      <Logo />
+      <ItemList isMobile={isMobile}>
         {items.map((page, index) => {
           return (
-            <SidebarItem
+            <NavigationItem
+              isMobile={isMobile}
               key={page.to}
               to={page.to}
               label={page.label}
@@ -46,26 +50,34 @@ const Sidebar = (props: ISidebarProps) => {
   );
 };
 
-export default Sidebar;
+export default Navigation;
 
-const Container = styled.div`
-  position: fixed;
+interface IContainerProps {
+  isMobile: boolean;
+}
+
+const Container = styled(Paper)`
+  position: ${({ isMobile }: IContainerProps) =>
+    isMobile ? "fixed" : "relative"};
   bottom: 0;
-  z-index: 1000;
   display: flex;
-  flex-direction: row;
+  flex-direction: ${({ isMobile }: IContainerProps) =>
+    isMobile ? "row" : "column"};
   align-items: center;
   justify-content: flex-start;
-  height: 70px;
-  min-width: 100%;
-  padding: 0.5rem;
+  height: ${({ isMobile }: IContainerProps) => (isMobile ? "70px" : "100vh")};
+  min-width: ${({ isMobile }: IContainerProps) =>
+    isMobile ? "100%" : "16rem"};
+  padding: ${({ isMobile }: IContainerProps) => (isMobile ? "0.5rem" : "1rem")};
+  border-radius: 0;
   gap: 1rem;
-  background-color: ${COLORS.background};
+  z-index: 1000;
 `;
 
 const ItemList = styled.ul`
   display: flex;
-  flex-direction: row;
+  flex-direction: ${({ isMobile }: IContainerProps) =>
+    isMobile ? "row" : "column"};
   gap: 0.5rem;
   width: 100%;
   margin: 0;

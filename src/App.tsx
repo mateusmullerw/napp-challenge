@@ -1,22 +1,51 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "./components/Sidebar/Sidebar";
-import BottomNavigation from "./components/BottomNavigation/BottomNavigation";
+import Sidebar from "./components/Navigation/Navigation";
 import styled from "@emotion/styled";
 import ROUTES from "./constants/routes";
 import PostAddRoundedIcon from "@mui/icons-material/PostAddRounded";
 import { ProductsProvider } from "./contexts/ProductsContext";
 import ContentPasteSearchRoundedIcon from "@mui/icons-material/ContentPasteSearchRounded";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Box } from "@mui/material";
 
 const theme = createTheme({
+  shape: {
+    borderRadius: 10,
+  },
+  shadows: [
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+  ],
   palette: {
     primary: {
       main: "#276663",
     },
     secondary: {
-      main: "#f50057",
+      main: "#9a76dc",
     },
     text: {
       primary: "#2b223d",
@@ -27,10 +56,16 @@ const theme = createTheme({
       main: "#159570",
     },
     error: {
-      main: "#f4365d",
+      main: "#ba1a1a",
     },
     background: {
-      default: "#f1f5f8",
+      default: "#FCFBFF",
+      paper: "#F1F3F7",
+    },
+    action: {
+      active: "rgba(40,93,91,0.75)",
+      hover: "#dae5e3",
+      selected: "#d3e4ff",
     },
     divider: "rgba(43,34,61,0.15)",
   },
@@ -52,16 +87,10 @@ const sidebarItems = [
 ];
 
 function App() {
-  const isLargeDisplay = useMediaQuery(theme.breakpoints.up("md"));
-
   return (
-    <Container>
+    <Container sx={{ backgroundColor: theme.palette.background.default }}>
       <ThemeProvider theme={theme}>
-        {isLargeDisplay ? (
-          <Sidebar items={sidebarItems} />
-        ) : (
-          <BottomNavigation items={sidebarItems} />
-        )}
+        <Sidebar items={sidebarItems} />
         <ProductsProvider>
           <Outlet />
         </ProductsProvider>
@@ -72,7 +101,7 @@ function App() {
 
 export default App;
 
-const Container = styled.div`
+const Container = styled(Box)`
   display: flex;
   flex-direction: row;
   min-height: 100vh;
