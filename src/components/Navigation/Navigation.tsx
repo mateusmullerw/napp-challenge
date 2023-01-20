@@ -25,6 +25,8 @@ const Navigation = (props: INavigationProps) => {
       setActiveItem(0);
     } else if (location.pathname === `/${ROUTES.REGISTER}`) {
       setActiveItem(1);
+    } else if (location.pathname === `/${ROUTES.COMPONENTS}`) {
+      setActiveItem(2);
     } else navigate(ROUTES.PRODUCTS);
   }, [location.pathname, navigate]);
 

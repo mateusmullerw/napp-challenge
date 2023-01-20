@@ -10,8 +10,37 @@ import ContentPasteSearchRoundedIcon from "@mui/icons-material/ContentPasteSearc
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Box } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import WebRoundedIcon from "@mui/icons-material/WebRounded";
 
 const theme = createTheme({
+  components: {
+    MuiStepConnector: {
+      styleOverrides: {
+        line: {
+          borderColor: "green",
+          borderWidth: "3px",
+        },
+      },
+    },
+    MuiStep: {
+      styleOverrides: {
+        root: {},
+        completed: {
+          background: "#555",
+        },
+      },
+    },
+    MuiStepLabel: {
+      styleOverrides: {
+        root: {
+          background: "#098765",
+          padding: "1rem",
+          borderRadius: "1rem",
+          cursor: "pointer",
+        },
+      },
+    },
+  },
   breakpoints: {
     values: {
       xs: 0,
@@ -96,6 +125,12 @@ const sidebarItems = [
     to: ROUTES.REGISTER,
     label: "Cadastrar",
     icon: <PostAddRoundedIcon />,
+    active: false,
+  },
+  {
+    to: ROUTES.COMPONENTS,
+    label: "Components",
+    icon: <WebRoundedIcon />,
     active: false,
   },
 ];

@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProductList from "./screens/ProductList/ProductList";
 import RegisterProduct from "./screens/RegisterProduct/RegisterProduct";
 import EditProduct from "./screens/EditProduct/EditProduct";
+import Components from "./screens/Components/Components";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "products/:sku",
         element: <EditProduct />,
+      },
+      {
+        path: "components",
+        element: <Components />,
       },
     ],
   },
